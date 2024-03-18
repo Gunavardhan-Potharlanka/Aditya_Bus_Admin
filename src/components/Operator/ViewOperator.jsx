@@ -1,7 +1,7 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {api} from '../../api/api.js'
-
-const DelOperator = () => {
+import { useState } from 'react';
+const ViewOperator = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [details, setDetaisl] = useState({
       firstname: "",
@@ -18,26 +18,14 @@ const DelOperator = () => {
         phoneNumber: ""
       })
     }
-  const handleSearch = () => {
-    api.get('/op/getOp/'+searchQuery).then(res=>{
-        setDetaisl(res.data.operator);
-    }).catch((err)=>{
-      alert('Operator not found');
-    })
-  };
-  const deleteOp = (id)=>{
-    console.log(id);
-    api.delete('/op/delOp/'+id).then(res=>{
-      alert('Success!!!!');
-      setSearchQuery('');
-      setDetaisl({
-        firstname: "",
-        lastname: "",
-        operator_id:"",
-        phoneNumber: ""
-      })
-    })
-  }
+    const handleSearch = () => {
+        api.get('/op/getOp/'+searchQuery).then(res=>{
+            setDetaisl(res.data.operator);
+        }).catch((err)=>{
+        alert('Operator not found');
+        setSearchQuery('');
+        })
+    };
   return (
     <div className='h-full w-full px-5 flex flex-col gap-5 justify-center items-center'>
       <div className='w-full flex justify-center gap-2'>
@@ -70,13 +58,10 @@ const DelOperator = () => {
                     </tr>
                 </tbody>
             </table>
-            <div className='flex justify-center items-center mt-5'>
-                <button onClick={()=>deleteOp(details.operator_id)} className="bg-[#004466] text-white font-[poppins] rounded-md px-5 py-2">Delete</button>
-            </div>
       </div>}
 
     </div>
   )
 }
 
-export default DelOperator
+export default ViewOperator

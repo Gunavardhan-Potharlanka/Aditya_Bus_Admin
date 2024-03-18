@@ -1,43 +1,31 @@
-import React,{useState} from 'react'
+import React from 'react'
 import {api} from '../../api/api.js'
+import { useState } from 'react';
 
-const DelOperator = () => {
+
+const ViewStudent = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [details, setDetaisl] = useState({
+    const [details, setDetails] = useState({
       firstname: "",
       lastname: "",
-      operator_id:"",
-      phoneNumber: ""
+      
     });
     const handleInputs = (e)=>{
       setSearchQuery(e.target.value);
-      setDetaisl({
+      setDetails({
         firstname: "",
         lastname: "",
-        operator_id:"",
-        phoneNumber: ""
       })
     }
-  const handleSearch = () => {
-    api.get('/op/getOp/'+searchQuery).then(res=>{
-        setDetaisl(res.data.operator);
-    }).catch((err)=>{
-      alert('Operator not found');
-    })
-  };
-  const deleteOp = (id)=>{
-    console.log(id);
-    api.delete('/op/delOp/'+id).then(res=>{
-      alert('Success!!!!');
-      setSearchQuery('');
-      setDetaisl({
-        firstname: "",
-        lastname: "",
-        operator_id:"",
-        phoneNumber: ""
-      })
-    })
-  }
+    const handleSearch = () => {
+        api.get('/admin/getstudetails/'+searchQuery)
+        .then(res=>{
+            setDetails(res.data.student);
+        }).catch((err)=>{
+            alert('Student details Not Found');
+            setSearchQuery('');
+        })
+    };
   return (
     <div className='h-full w-full px-5 flex flex-col gap-5 justify-center items-center'>
       <div className='w-full flex justify-center gap-2'>
@@ -53,7 +41,7 @@ const DelOperator = () => {
       </div>
 
       { details.firstname.length>0 &&
-        <div className='h-[200px] md:w-[350px] solid border p-2 border-slate-200 rounded-md w-full shadow-md'>
+        <div className='md:w-[350px] solid border p-2 border-slate-200 rounded-md w-full shadow-md'>
             <table className='h-[60%] w-full'>
                 <tbody className='font-[poppins]'>
                     <tr>
@@ -61,22 +49,36 @@ const DelOperator = () => {
                         <td className='font-[poppins]'>{details.firstname} {details.lastname}</td>
                     </tr>
                     <tr>
-                        <th>Op Id:</th>
-                        <td>{details.operator_id}</td>
+                        <th>Roll :</th>
+                        <td>{details.rollno}</td>
                     </tr>
                     <tr>
-                        <th>Mobile :</th>
-                        <td>{details.phoneNumber}</td>
+                        <th>Email :</th>
+                        <td>{details.email}</td>
+                    </tr>
+                    <tr>
+                        <th>Year & Semester</th>
+                        <td>{details.year}rd year - {details.semester}</td>
+                    </tr>
+                    <tr>
+                        <th>City :</th>
+                        <td>{details.cityName}</td>
+                    </tr>
+                    <tr>
+                        <th>BusRoute :</th>
+                        <td>{details.busRoute}</td>
+                    </tr>
+                    <tr>
+                        <th>Fee :</th>
+                        <td>{details.feePaid}</td>
                     </tr>
                 </tbody>
             </table>
-            <div className='flex justify-center items-center mt-5'>
-                <button onClick={()=>deleteOp(details.operator_id)} className="bg-[#004466] text-white font-[poppins] rounded-md px-5 py-2">Delete</button>
-            </div>
       </div>}
 
     </div>
   )
 }
 
-export default DelOperator
+export default ViewStudent
+

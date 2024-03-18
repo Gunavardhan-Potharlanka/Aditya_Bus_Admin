@@ -1,17 +1,8 @@
+import { useContext, useState } from 'react';
+import {api } from '../api/api.js'
+import { BusContext } from '../context/BusContext.jsx';
+// const context = useContext(BusContext);
 export const Data = [
-  {
-    name: "Buses",
-    children: [
-      {
-        title: "Get Scans By bus",
-        path: "getscansbybus",
-      },
-      {
-        title: "Buses that got scanned",
-        path: "scannedbuses",
-      },
-    ],
-  },
   {
     name: "Operators",
     children: [
@@ -74,27 +65,27 @@ export const Array = [
   {
     name: 232,
     students: 45,
-    city: "Pitapuram",
+    city: "Pithapuram",
   },
   {
     name: 236,
     students: 56,
-    city: "Pitapuram",
+    city: "Pithapuram",
   },
   {
     name: 237,
     students: 45,
-    city: "Pitapuram",
+    city: "Pithapuram",
   },
   {
     name: 239,
     students: 25,
-    city: "Pitapuram",
+    city: "Pithapuram",
   },
   {
     name: 240,
     students: 65,
-    city: "Pitapuram",
+    city: "Pithapuram",
   },
   {
     name: 334,
@@ -150,3 +141,23 @@ export const CityLabels = [
   "Kesavaram",
 ];
 export const CityData = [208, 308, 450, 257, 234];
+export const StudentByBus = (num)=>{
+  const [data, setData] = useState([]);
+  try{
+    api.get('/admin/stdbybus/'+num).then(res=>{
+      setData(res.data);
+    })
+  }catch(err){
+    console.log(err.response);
+  }
+  return data;
+}
+
+
+export const getTodayData = async()=>{
+  try{
+    return await api.get('/admin/getTodayData');
+  }catch(err){
+    console.log(err);
+  }
+}
