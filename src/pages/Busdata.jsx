@@ -1,24 +1,48 @@
-import React from 'react'
-import { StudentByBus } from '../components/SideBarData';
+import React, { useContext, useEffect } from 'react'
 import {Navigate} from 'react-router-dom'
-const Busdata = (props) => {
-    const Data = StudentByBus(props.number);
-    if(!props.number) return <Navigate to='/dashboard/bus' />
+import { BusContext } from '../context/BusContext';
+import { useState } from 'react';
+import { api } from '../api/api';
+const Busdata = () => {
+  const context = useContext(BusContext)
+    const [Data, setData] = useState([])
+    const fetchData = async()=>{
+      try{
+        await api.get('/admin/stdbybus/'+context.number).then(res=>{
+          setData(res.data);
+        })
+      }catch(err){
+        console.log(err);
+      }
+    }
+    useEffect(()=>{
+      fetchData();
+    }, [])
+    if(!context.number) return <Navigate to='/dashboard/bus' />
     return (
     <div className='p-3'>
-      <h1 className='text-4xl mb-2'>{props.number}</h1>
-      <div className="p-3 border border-[0.5] rounded">
+      <h1 className='text-4xl mb-2'>{context.number} - {Data.length}</h1>
         {
-            Data.map((item, ind)=>{
-                return <div className="p-2 flex gap-x-2" key={ind}>
-                    <p>{ind+1}.</p>
-                    <h1>{item.rollNo}</h1>
-                    <h1>{item.firstName} {item.lastName}</h1>
-                    <h1>{item.operator_id}</h1>
-                </div>
-            })
+          Data.length && 
+          <table className='border w-full'>
+                     <tr className='border'>
+                        <th>S.No</th>
+                        <th>Roll No.</th>
+                        <th>Name</th>
+                        <th>Operator</th>
+                     </tr>
+                     {
+                      Data.map((item, ind)=>{
+                        return <tr key={ind} className='text-center'>
+                          <td>{ind+1}</td>
+                          <td>{item.rollNo}</td>
+                          <td>{item.firstName} {item.lastName}</td>
+                          <td>{item.operator_id}</td>
+                        </tr>
+                      })
+                     }
+             </table>
         }
-      </div>
     </div>
   )
 }

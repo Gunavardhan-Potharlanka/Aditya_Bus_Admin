@@ -10,7 +10,7 @@ const Card = () => {
 
     const handleAdmin = async(e) => {
         e.preventDefault();
-        await axios.post(`${apiConfig.API_SERVER}admin/login`,user)
+        await axios.post(`http://localhost:4000/api/v1/admin/login`,user)
         .then((res) => {
             // console.log(res.data);
             localStorage.setItem("ZyklonX_PhaseDoom",res.headers.authorization)

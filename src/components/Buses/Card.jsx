@@ -6,23 +6,26 @@ import { api } from "../../api/api";
 const Card = (props) => {
   const navigate = useNavigate();
   const [Data, setData] = useState([]);
-  const city = props.cityName;
-  useEffect(()=>{
-      try{
-        if(props.cityName==='*'){
-          api.get('/admin/allbuses').then(res=>{
-            setData(res.data);
-          })
-        }
-        else{
-          api.post('/admin/filtercities', {city}).then(res=>{
-            setData(res.data);
-          })
-        }
-      }catch(err){
-        // console.log(err);
-        console.log('Fetch error');
+  const fetchData = async()=>{
+    try{
+      if(props.cityName==='*'){
+        await api.get('/admin/allbuses').then(res=>{
+          setData(res.data);
+        })
       }
+      else{
+        const city = props.cityName;
+        await api.post('/admin/filtercities', {city}).then(res=>{
+          setData(res.data);
+        })
+      }
+    }catch(err){
+      // console.log(err);
+      console.log('Fetch error');
+    }
+  }
+  useEffect(()=>{
+    fetchData();
   }, [props.cityName]);
   const context = useContext(BusContext);
   const handleNavigate = (item)=>{

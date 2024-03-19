@@ -7,7 +7,7 @@ export const apiConfig = {
 
 const token  = localStorage.getItem('ZyklonX_PhaseDoom')
 export const api = axios.create({
-    baseURL: apiConfig.API_SERVER,
+    baseURL: "http://localhost:4000/api/v1",
     headers:{
         'Authorization':token
     }

@@ -144,17 +144,6 @@ export const CityLabels = [
   "Kesavaram",
 ];
 export const CityData = [208, 308, 450, 257, 234];
-export const StudentByBus = (num)=>{
-  const [data, setData] = useState([]);
-  try{
-    api.get('/admin/stdbybus/'+num).then(res=>{
-      setData(res.data);
-    })
-  }catch(err){
-    console.log(err.response);
-  }
-  return data;
-}
 
 
 export const getTodayData = async()=>{
