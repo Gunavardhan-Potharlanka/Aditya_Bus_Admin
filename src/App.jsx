@@ -15,6 +15,8 @@ import Bus from "./pages/Bus";
 import ViewStudent from "./components/Student/ViewStudent";
 import { BusContext } from "./context/BusContext";
 import Busdata from "./pages/Busdata";
+import { useEffect } from "react";
+import { BlackSheep } from "./pages/BlackSheep";
 const App = () => {
   const context = useContext(BusContext);
   return (
@@ -33,6 +35,7 @@ const App = () => {
           <Route path="adpro" element={<Profile />} />
           <Route path="bus" element={<Bus />} />
           <Route path='busdata' element={<Busdata number={context.number} />} />
+          <Route path="sheep"  element={<BlackSheep />} />
         </Route>
       </Routes>
     </BrowserRouter>

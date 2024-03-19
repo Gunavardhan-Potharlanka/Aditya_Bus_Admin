@@ -1,9 +1,27 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {api} from '../../api/api.js'
 
 const DelStudent = () => {
+    const [data,setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [details, setDetails] = useState({firstname:'',lastname:'',rollno:''});
+
+    const fetch = async() => {
+        try {
+          await api.get('/admin/allStudents')
+          .then((res) => {
+            // console.log(res.data);
+            setData(res.data);
+          })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+      fetch();
+    },[])
+
 
     const handleInputs = (e)=>{
       setSearchQuery(e.target.value);
@@ -40,8 +58,13 @@ const DelStudent = () => {
         busRoute:''
       })
     })
+    window.location.reload();
   }
 
+  const handleTabledelete = async(id) => {
+      setSearchQuery(id)
+      deleteStud(id)
+  }
   return (
     <div className='h-full w-full px-5 flex flex-col gap-5 justify-center items-center'>
       <div className='w-full flex justify-center gap-2'>
@@ -88,6 +111,29 @@ const DelStudent = () => {
                 <button onClick={()=>deleteStud(details.rollno)} className="bg-[#004466] text-white font-[poppins] rounded-md px-5 py-2">Delete</button>
             </div>
       </div>}
+      {data.length>0 && <table className='solid border rounded-md' cellPadding={7}>
+                  <tr className='border'>
+                    <th>S.No</th>
+                    <th>Operator Id</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Actions</th>
+                    <th></th>
+                  </tr>
+
+                  {
+        
+                    data.map((item,ind)=>{
+                      return <tr key={ind} className='text-center'>
+                        <td>{ind+1}</td>
+                        <td>{item.rollno}</td>
+                        <td>{item.firstname}</td>
+                        <td>{item.lastname}</td>
+                        <td><button onClick={()=>handleTabledelete(item.rollno)} className="bg-[#004466] text-white font-[poppins] rounded-md px-3 py-1">Delete</button></td>
+                      </tr>
+                    })
+                  }
+              </table>}
 
     </div>
   )

@@ -28,16 +28,32 @@ const Profile = () => {
       let userid = decodedToken.id;
     const getDetails = ()=>{
         api.get('/admin/profile/'+userid).then(res=>{
-            console.log(res.data);
+            // console.log(res.data);
             setData(res.data);
         })
     }
     useEffect(()=>{
         getDetails();
-    })
+    },[])
   return (
     <div>
-        {data.firstName}
+        <table border={2} cellPadding={1} cellSpacing={5}>
+              <tr>
+                <th>1</th>
+                <th>FirstName :</th>
+                 <td>{data.firstName}</td>
+              </tr>
+              <tr>
+                <th>2</th>
+                <th>LastName :</th>
+                 <td>{data.lastName}</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <th>Mobile No. :</th>
+                 <td>{data.phoneNumber}</td>
+              </tr>
+        </table>
    </div>
   )
 }

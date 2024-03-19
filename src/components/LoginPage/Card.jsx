@@ -11,7 +11,7 @@ const Card = () => {
         e.preventDefault();
         await axios.post('http://localhost:4000/api/v1/admin/login',user)
         .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             localStorage.setItem("ZyklonX_PhaseDoom",res.headers.authorization)
         })
         navigate('/dashboard');

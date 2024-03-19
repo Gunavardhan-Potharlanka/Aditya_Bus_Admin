@@ -5,6 +5,7 @@ import { api } from "../api/api";
 const Statistice = () => {
   
   const [Data, setTodayData] = useState([]);
+  const [BS, setBs] = useState(0); 
   const fetchData = async()=>{
     try {
       await api.get('/admin/getTodayData').then(res=>{
@@ -12,6 +13,15 @@ const Statistice = () => {
       })
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+
+    try{
+      await api.get('/admin/unauthCount').then(res=>{
+        setBs(res.data);
+        // console.log(res.data)
+      })
+    }catch(err){
+      console.log(err)
     }
   }
   useEffect(() => {
@@ -57,7 +67,7 @@ const Statistice = () => {
           </div>
 
           <div className="w-full md:w-[40%] shadow rounded p-2 solid border border-b-[3px] border-b-blue-500">
-            <h1 className="text-3xl">1</h1>
+            <h1 className="text-3xl">{BS}</h1>
             <p>Black sheep</p>
           </div>
         </div>

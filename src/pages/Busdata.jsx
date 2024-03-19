@@ -14,6 +14,7 @@ const Busdata = (props) => {
                     <p>{ind+1}.</p>
                     <h1>{item.rollNo}</h1>
                     <h1>{item.firstName} {item.lastName}</h1>
+                    <h1>{item.operator_id}</h1>
                 </div>
             })
         }

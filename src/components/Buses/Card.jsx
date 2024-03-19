@@ -20,7 +20,7 @@ const Card = (props) => {
           })
         }
       }catch(err){
-        console.log(err);
+        // console.log(err);
         console.log('Fetch error');
       }
   }, [props.cityName]);

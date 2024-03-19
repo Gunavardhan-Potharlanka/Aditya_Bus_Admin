@@ -67,7 +67,7 @@ const AddStudent = () => {
             firstname:'',lastname:'',college: '',branch: '',rollno:'',phoneNumber:'',email:'',year:'',semester:'',
             passout:'',busfee:'',cityName:'',busRoute: '',
           })
-          console.log(res.data);
+          // console.log(res.data);
         })
   }
   return (
