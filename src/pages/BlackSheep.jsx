@@ -3,11 +3,13 @@ import { api } from '../api/api';
 import { Search } from 'lucide-react';
 
 export const BlackSheep = () => {
+    const datetoday = new Date().toISOString().split('T')[0].split('-').reverse().join('-').toString()
     const [data,setData] = useState([]);
+    const [date, setToday] = useState(datetoday)
     const [search,setSearchQuery] = useState('');
-    const getDetails = async() => {
+    const getDetails = async(date) => {
         try {
-            await api.get('/admin/unauthorized')
+            await api.get('/admin/unauthorized/'+date)
             .then((res) => {
                 // console.log(res.data);
                 setData(res.data);
@@ -16,10 +18,13 @@ export const BlackSheep = () => {
             console.log(error)
         }
     }
+    const HandleDate = (e)=>{
+        console.log(e.target.value.split('-').reverse().join('-'));
+        setToday(e.target.value.split('-').reverse().join('-'));
+    }
     useEffect(() => {
-        getDetails();
-    },[])
-
+        getDetails(date);
+    },[date])
     const filteredData = data.filter(
         (item) => item.rollNo.toLowerCase().includes(search.toLowerCase())
       );
@@ -27,7 +32,7 @@ export const BlackSheep = () => {
   return (
     <div className='w-full min-h-[calc(100vh-70px)] p-5'>
 
-        <div className='w-full'>
+        <div className='w-full flex justify-between'>
             <div className='w-full relative'>
                 <input type="tel"
                        placeholder='search roll number ...'
@@ -36,6 +41,7 @@ export const BlackSheep = () => {
                  />
                  <Search className='absolute left-2 bottom-2 text-[grey]'/>
             </div>
+            <input type='date' className='outline-0 border-0' onChange={(e)=>HandleDate(e)}/>
         </div>
     { filteredData.length>0 ?
         <div className='px-5 md:my-10 my-5 flex justify-center items-center'>

@@ -8,7 +8,9 @@ const Busdata = () => {
     const [Data, setData] = useState([])
     const fetchData = async()=>{
       try{
-        await api.get('/admin/stdbybus/'+context.number).then(res=>{
+        const number = context.number;
+        const date = context.date;
+        await api.post('/admin/stdbybus', {number, date}).then(res=>{
           setData(res.data);
         })
       }catch(err){
@@ -18,6 +20,7 @@ const Busdata = () => {
     useEffect(()=>{
       fetchData();
     }, [])
+    console.log(context.number, context.date);
     if(!context.number) return <Navigate to='/dashboard/bus' />
     return (
     <div className='p-3'>

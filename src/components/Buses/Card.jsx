@@ -9,13 +9,15 @@ const Card = (props) => {
   const fetchData = async()=>{
     try{
       if(props.cityName==='*'){
-        await api.get('/admin/allbuses').then(res=>{
+        const date = props.date;
+        await api.get('/admin/allbuses/'+date).then(res=>{
           setData(res.data);
         })
       }
       else{
         const city = props.cityName;
-        await api.post('/admin/filtercities', {city}).then(res=>{
+        const date = props.date;
+        await api.post('/admin/filtercities', {city, date}).then(res=>{
           setData(res.data);
         })
       }
@@ -26,7 +28,7 @@ const Card = (props) => {
   }
   useEffect(()=>{
     fetchData();
-  }, [props.cityName]);
+  }, [props.cityName, props.date]);
   const context = useContext(BusContext);
   const handleNavigate = (item)=>{
     context.setNumber(item.busNumber);

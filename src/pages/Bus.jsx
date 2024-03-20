@@ -5,6 +5,12 @@ import { Search } from "lucide-react";
 const Bus = () => {
   const context = useContext(BusContext);
   const [City, setSelectCity] = useState('*');
+  const datetoday = new Date().toISOString().split('T')[0].split('-').reverse().join('-').toString();
+  const [date, setDate] = useState(datetoday);
+  const HandleDate = (e)=>{
+    setDate(e.target.value.split('-').reverse().join('-'));
+    context.setDate(e.target.value.split('-').reverse().join('-'));
+  }
   return (
     <div className="w-full py-2 px-3">
 
@@ -25,6 +31,8 @@ const Bus = () => {
           </select>
         </div>
 
+        <input type="date" className="border-0 outline-0" onChange={(e)=> HandleDate(e)} />
+
         <div className="md:w-[35%] w-full  flex gap-2 justify-end">
           <div className="w-full flex flex-wrap relative">
             <input
@@ -40,7 +48,7 @@ const Bus = () => {
         </div>
       </div>
       <div className="flex gap-2 px-5">
-        <Card cityName={City}/>
+        <Card cityName={City} date={date}/>
       </div>
     </div>
   );

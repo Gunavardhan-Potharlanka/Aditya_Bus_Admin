@@ -16,6 +16,7 @@ import ViewStudent from "./components/Student/ViewStudent";
 import Busdata from "./pages/Busdata";
 import { useEffect } from "react";
 import { BlackSheep } from "./pages/BlackSheep";
+import Previous from "./pages/Previous";
 const App = () => {
   return (
     <BrowserRouter>
